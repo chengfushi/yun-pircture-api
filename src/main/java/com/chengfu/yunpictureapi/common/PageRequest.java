@@ -1,4 +1,4 @@
-package com.yupi.yupicturebackend.common;
+package com.chengfu.yunpictureapi.common;
 
 import lombok.Data;
 

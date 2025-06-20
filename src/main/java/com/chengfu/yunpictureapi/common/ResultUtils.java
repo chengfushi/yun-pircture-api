@@ -1,6 +1,7 @@
-package com.yupi.yupicturebackend.common;
+package com.chengfu.yunpictureapi.common;
 
-import com.yupi.yupicturebackend.exception.ErrorCode;
+
+import com.chengfu.yunpictureapi.exception.ErrorCode;
 
 /**
  * 响应工具类

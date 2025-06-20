@@ -1,4 +1,4 @@
-package com.yupi.yupicturebackend.exception;
+package com.chengfu.yunpictureapi.exception;
 
 import lombok.Getter;
 

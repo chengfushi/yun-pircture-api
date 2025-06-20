@@ -1,4 +1,4 @@
-package com.yupi.yupicturebackend.constant;
+package com.chengfu.yunpictureapi.constant;
 
 /**
  * 用户常量

@@ -1,9 +1,10 @@
-package com.yupi.yupicturebackend.exception;
+package com.chengfu.yunpictureapi.exception;
 
 import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.exception.NotPermissionException;
-import com.yupi.yupicturebackend.common.BaseResponse;
-import com.yupi.yupicturebackend.common.ResultUtils;
+
+import com.chengfu.yunpictureapi.common.BaseResponse;
+import com.chengfu.yunpictureapi.common.ResultUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
