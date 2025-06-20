@@ -1,4 +1,4 @@
-# 智能协同云云图库平台后端
+# 智图云链(SmartPix Cloud)后端
 
 > 作者:[Chengfu Shi](https://github.com/chengfushi)
 > 
