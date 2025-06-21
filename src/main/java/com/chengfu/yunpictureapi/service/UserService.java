@@ -2,9 +2,8 @@ package com.chengfu.yunpictureapi.service;
 
 import com.chengfu.yunpictureapi.model.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.chengfu.yunpictureapi.model.vo.LoginUserVO;
+import com.chengfu.yunpictureapi.model.vo.user.LoginUserVO;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 
 /**

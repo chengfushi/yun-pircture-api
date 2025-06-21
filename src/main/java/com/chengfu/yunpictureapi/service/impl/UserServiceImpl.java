@@ -2,13 +2,12 @@ package com.chengfu.yunpictureapi.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.chengfu.yunpictureapi.constant.UserConstant;
 import com.chengfu.yunpictureapi.exception.BusinessException;
 import com.chengfu.yunpictureapi.exception.ErrorCode;
 import com.chengfu.yunpictureapi.exception.ThrowUtils;
 import com.chengfu.yunpictureapi.model.entity.User;
 import com.chengfu.yunpictureapi.model.enums.UserRoleEnum;
-import com.chengfu.yunpictureapi.model.vo.LoginUserVO;
+import com.chengfu.yunpictureapi.model.vo.user.LoginUserVO;
 import com.chengfu.yunpictureapi.service.UserService;
 import com.chengfu.yunpictureapi.mapper.UserMapper;
 import org.springframework.beans.BeanUtils;

@@ -1,4 +1,4 @@
-package com.chengfu.yunpictureapi.model.dto;
+package com.chengfu.yunpictureapi.model.dto.user;
 
 import lombok.Data;
 

@@ -6,15 +6,14 @@ import com.chengfu.yunpictureapi.common.ResultUtils;
 import com.chengfu.yunpictureapi.constant.UserConstant;
 import com.chengfu.yunpictureapi.exception.ErrorCode;
 import com.chengfu.yunpictureapi.exception.ThrowUtils;
-import com.chengfu.yunpictureapi.model.dto.UserLoginRequest;
-import com.chengfu.yunpictureapi.model.dto.UserRegisterRequest;
+import com.chengfu.yunpictureapi.model.dto.user.UserLoginRequest;
+import com.chengfu.yunpictureapi.model.dto.user.UserRegisterRequest;
 import com.chengfu.yunpictureapi.model.entity.User;
-import com.chengfu.yunpictureapi.model.vo.LoginUserVO;
+import com.chengfu.yunpictureapi.model.vo.user.LoginUserVO;
 import com.chengfu.yunpictureapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
