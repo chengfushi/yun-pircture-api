@@ -6,13 +6,11 @@ import com.chengfu.yunpictureapi.exception.ErrorCode;
 import com.chengfu.yunpictureapi.exception.ThrowUtils;
 import com.chengfu.yunpictureapi.model.dto.UserLoginRequest;
 import com.chengfu.yunpictureapi.model.dto.UserRegisterRequest;
+import com.chengfu.yunpictureapi.model.entity.User;
 import com.chengfu.yunpictureapi.model.vo.LoginUserVO;
 import com.chengfu.yunpictureapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -41,6 +39,13 @@ public class UserController {
         LoginUserVO loginUserVO = userService.userLogin(userAccount, userPassword,request);
         return ResultUtils.success(loginUserVO);
     }
+
+    @GetMapping("/get/login")
+    public BaseResponse<LoginUserVO> getLoginUser(HttpServletRequest request) {
+        User loginUser = userService.getLoginUser(request);
+        return ResultUtils.success(userService.getLoginUserVO(loginUser));
+    }
+
 
 
 

@@ -12,13 +12,13 @@ spring:
     url: jdbc:mysql://117.72.69.235/yun_picture
     username: root
     password: baotamysql
+
   redis:
-    database: 0
-    host: 117.72.69.235
+    host: 117.72.69.235  # 确保这是主节点IP地址
     port: 6379
+    timeout: 5000
   session:
     store-type: redis
-    # session 30 天后过期
     timeout: 2592000
     # 开放更大的文件上传体积
   servlet:
