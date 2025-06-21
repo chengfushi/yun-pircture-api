@@ -121,3 +121,7 @@ ALTER TABLE user
     ADD COLUMN vipExpireTime datetime NULL COMMENT '会员过期时间',
     ADD COLUMN vipCode varchar(128) NULL COMMENT '会员兑换码',
     ADD COLUMN vipNumber bigint NULL COMMENT '会员编号';
+
+ALTER TABLE user
+    ADD COLUMN shareCode     varchar(20)  DEFAULT NULL COMMENT '分享码',
+    ADD COLUMN inviteUser    bigint       DEFAULT NULL COMMENT '邀请用户 id'
