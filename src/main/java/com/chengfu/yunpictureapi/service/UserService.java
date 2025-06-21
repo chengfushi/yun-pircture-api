@@ -11,8 +11,21 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface UserService extends IService<User> {
 
+    /*
+    * 注册逻辑
+    * @param userAccount 账号
+    * @param userPassword 密码
+    * @param checkPassword 校验密码
+    * @return Long 用户ID
+    * */
     Long userRegister(String userAccount, String userPassword, String checkPassword);
 
+    /*
+    * 对密码加密
+    *
+    * @param userPassword 密码
+    * @return String 加密后的密码
+    * */
     String getEncryptPassword(String userPassword);
 
 

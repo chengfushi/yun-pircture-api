@@ -22,6 +22,13 @@ import org.springframework.util.DigestUtils;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     implements UserService{
 
+    /*
+     * 注册逻辑
+     * @param userAccount 账号
+     * @param userPassword 密码
+     * @param checkPassword 校验密码
+     * @return Long 用户ID
+     * */
     @Override
     public Long userRegister(String userAccount, String userPassword, String checkPassword) {
 
@@ -55,6 +62,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     }
 
 
+    /*
+     * 对密码加密
+     *
+     * @param userPassword 密码
+     * @return String 加密后的密码
+     * */
     @Override
     public String getEncryptPassword(String userPassword) {
         // 盐值，混淆密码
