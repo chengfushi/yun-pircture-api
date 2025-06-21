@@ -1,8 +1,11 @@
 package com.chengfu.yunpictureapi.service;
 
-import com.chengfu.yunpictureapi.model.dto.UserRegisterRequest;
 import com.chengfu.yunpictureapi.model.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.chengfu.yunpictureapi.model.vo.LoginUserVO;
+
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 
 /**
 * @author Lenovo
@@ -29,4 +32,14 @@ public interface UserService extends IService<User> {
     String getEncryptPassword(String userPassword);
 
 
+    /*
+    * 登录逻辑
+    * @param userAccount 账号
+    * @param userPassword 密码
+    * @param  httpServlet 登录态
+    * @return LoginUserVO 登录用户信息
+    * */
+    LoginUserVO userLogin(String userAccount, String userPassword, HttpServletRequest request);
+
+    LoginUserVO getLoginUserVO(User user);
 }

@@ -2,16 +2,20 @@ package com.chengfu.yunpictureapi.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.chengfu.yunpictureapi.constant.UserConstant;
 import com.chengfu.yunpictureapi.exception.BusinessException;
 import com.chengfu.yunpictureapi.exception.ErrorCode;
 import com.chengfu.yunpictureapi.exception.ThrowUtils;
-import com.chengfu.yunpictureapi.model.dto.UserRegisterRequest;
 import com.chengfu.yunpictureapi.model.entity.User;
 import com.chengfu.yunpictureapi.model.enums.UserRoleEnum;
+import com.chengfu.yunpictureapi.model.vo.LoginUserVO;
 import com.chengfu.yunpictureapi.service.UserService;
 import com.chengfu.yunpictureapi.mapper.UserMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
 * @author Lenovo
@@ -74,6 +78,40 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         final String SALT = "chengfu";
         return DigestUtils.md5DigestAsHex((SALT + userPassword).getBytes());
     }
+
+    @Override
+    public LoginUserVO userLogin(String userAccount, String userPassword, HttpServletRequest request) {
+        ThrowUtils.throwIf(userAccount == null || userAccount.isEmpty(), ErrorCode.PARAMS_ERROR);
+        ThrowUtils.throwIf(userPassword == null || userPassword.isEmpty(), ErrorCode.PARAMS_ERROR);
+
+        //对密码加密
+        String encryptPassword = getEncryptPassword(userPassword);
+
+        //校验用户是否存在
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("userAccount", userAccount);
+        queryWrapper.eq("userPassword", encryptPassword);
+        User user = this.getOne(queryWrapper);
+        if (user == null) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "账号或密码错误");
+        }
+
+        //记录用户登录态
+        request.getSession().setAttribute(UserConstant.USER_LOGIN_STATE, user);
+        return this.getLoginUserVO(user);
+
+    }
+
+    @Override
+    public LoginUserVO getLoginUserVO(User user) {
+        if (user == null) {
+            return null;
+        }
+        LoginUserVO loginUserVO = new LoginUserVO();
+        BeanUtils.copyProperties(user, loginUserVO);
+        return loginUserVO;
+    }
+
 
 }
 
