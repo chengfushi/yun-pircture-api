@@ -9,13 +9,22 @@ spring:
   # 数据库配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://你看你妈/yun_picture
+    url: jdbc:mysql://117.72..69.235/yun_picture
     username: root
     password: baotamysql
   redis:
     database: 0
-    host: 你看你妈
+    host: 117.72.69.235
     port: 6379
+  session:
+    store-type: redis
+    # session 30 天后过期
+    timeout: 2592000
+  # 开放更大的文件上传体积
+  servlet:
+    multipart:
+      max-file-size: 10MB
+
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: false
