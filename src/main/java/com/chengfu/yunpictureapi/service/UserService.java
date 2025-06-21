@@ -1,10 +1,15 @@
 package com.chengfu.yunpictureapi.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.chengfu.yunpictureapi.model.dto.user.UserAddRequest;
+import com.chengfu.yunpictureapi.model.dto.user.UserQueryRequest;
 import com.chengfu.yunpictureapi.model.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.chengfu.yunpictureapi.model.vo.user.LoginUserVO;
+import com.chengfu.yunpictureapi.model.vo.user.UserVO;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
 * @author Lenovo
@@ -45,4 +50,10 @@ public interface UserService extends IService<User> {
     User getLoginUser(HttpServletRequest request);
 
     boolean logout(HttpServletRequest request);
+
+    UserVO getUserVO(User user);
+
+    List<UserVO> getUserVOList(List<User> userList);
+
+    QueryWrapper<User> getQueryWrapper(UserQueryRequest userQueryRequest);
 }
