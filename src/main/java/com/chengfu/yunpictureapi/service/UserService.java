@@ -1,5 +1,6 @@
 package com.chengfu.yunpictureapi.service;
 
+import com.chengfu.yunpictureapi.model.dto.UserRegisterRequest;
 import com.chengfu.yunpictureapi.model.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -9,5 +10,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
 * @createDate 2025-06-21 14:37:56
 */
 public interface UserService extends IService<User> {
+
+    Long userRegister(String userAccount, String userPassword, String checkPassword);
+
+    String getEncryptPassword(String userPassword);
+
 
 }
