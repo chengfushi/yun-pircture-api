@@ -1,7 +1,9 @@
 package com.chengfu.yunpictureapi.controller;
 
+import com.chengfu.yunpictureapi.annotation.AuthCheck;
 import com.chengfu.yunpictureapi.common.BaseResponse;
 import com.chengfu.yunpictureapi.common.ResultUtils;
+import com.chengfu.yunpictureapi.constant.UserConstant;
 import com.chengfu.yunpictureapi.exception.ErrorCode;
 import com.chengfu.yunpictureapi.exception.ThrowUtils;
 import com.chengfu.yunpictureapi.model.dto.UserLoginRequest;
@@ -41,12 +43,15 @@ public class UserController {
     }
 
     @GetMapping("/get/login")
+
+    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     public BaseResponse<LoginUserVO> getLoginUser(HttpServletRequest request) {
         User loginUser = userService.getLoginUser(request);
         return ResultUtils.success(userService.getLoginUserVO(loginUser));
     }
 
     @PostMapping("/logout")
+    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     public BaseResponse<Boolean> userLogout(HttpServletRequest request) {
         ThrowUtils.throwIf(request == null, ErrorCode.PARAMS_ERROR);
         boolean logout = userService.logout(request);

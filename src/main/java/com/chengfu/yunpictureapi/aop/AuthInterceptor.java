@@ -7,6 +7,7 @@ import com.chengfu.yunpictureapi.model.entity.User;
 import com.chengfu.yunpictureapi.model.enums.UserRoleEnum;
 import com.chengfu.yunpictureapi.service.UserService;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
@@ -28,7 +29,7 @@ public class AuthInterceptor {
     * @param authCheck
     * @return
     * */
-
+    @Around("@annotation(authCheck)")
     public Object doInterceptor(ProceedingJoinPoint joinPoint, AuthCheck authCheck) throws Throwable {
         //获取必须的权限
         String mustRole = authCheck.mustRole();
