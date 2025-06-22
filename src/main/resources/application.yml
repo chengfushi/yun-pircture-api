@@ -3,9 +3,13 @@ server:
   servlet:
     context-path: /api
 
+
+
 spring:
   application:
     name: yun-picture-api
+  profiles:
+    active: local
   # 数据库配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
