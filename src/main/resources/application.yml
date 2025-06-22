@@ -9,12 +9,12 @@ spring:
   # 数据库配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://117.72.69.235/yun_picture
+    url: jdbc:mysql://自己数据库/yun_picture
     username: root
     password: baotamysql
 
   redis:
-    host: 117.72.69.235  # 确保这是主节点IP地址
+    host: 自己的数据库  # 确保这是主节点IP地址
     port: 6379
     timeout: 5000
   session:
