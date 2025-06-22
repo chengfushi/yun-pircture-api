@@ -47,15 +47,12 @@ public class UserController {
     }
 
     @GetMapping("/get/login")
-
-    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     public BaseResponse<LoginUserVO> getLoginUser(HttpServletRequest request) {
         User loginUser = userService.getLoginUser(request);
         return ResultUtils.success(userService.getLoginUserVO(loginUser));
     }
 
     @PostMapping("/logout")
-    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     public BaseResponse<Boolean> userLogout(HttpServletRequest request) {
         ThrowUtils.throwIf(request == null, ErrorCode.PARAMS_ERROR);
         boolean logout = userService.logout(request);
