@@ -134,6 +134,23 @@ public class UserController {
     }
 
     /*
+    用户更新自己的个人信息
+     */
+    @PostMapping("/update/self")
+    public BaseResponse<Boolean> updateUserSelf(@RequestBody UserUpdateRequest userUpdateSelfRequest, HttpServletRequest request) {
+        ThrowUtils.throwIf(userUpdateSelfRequest == null, ErrorCode.PARAMS_ERROR);
+        User user = userService.getLoginUser(request);
+        BeanUtils.copyProperties(userUpdateSelfRequest, user);
+        boolean update = userService.updateById(user);
+        if (!update) {
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "用户更新失败");
+        }
+        return ResultUtils.success(update);
+    }
+
+
+
+    /*
      * 用户列表分页查询
      * */
     @PostMapping("/list/page/vo")
