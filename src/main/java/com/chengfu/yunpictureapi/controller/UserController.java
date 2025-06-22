@@ -140,8 +140,10 @@ public class UserController {
     public BaseResponse<Boolean> updateUserSelf(@RequestBody UserUpdateRequest userUpdateSelfRequest, HttpServletRequest request) {
         ThrowUtils.throwIf(userUpdateSelfRequest == null, ErrorCode.PARAMS_ERROR);
         User user = userService.getLoginUser(request);
+
         BeanUtils.copyProperties(userUpdateSelfRequest, user);
         boolean update = userService.updateById(user);
+
         if (!update) {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "用户更新失败");
         }

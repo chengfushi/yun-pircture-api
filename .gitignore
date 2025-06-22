@@ -20,7 +20,7 @@ target/
 *.ipr
 .yml
 
-application.yml
+application-local.yml
 
 ### NetBeans ###
 /nbproject/private/
