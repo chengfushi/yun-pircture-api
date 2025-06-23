@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -126,6 +127,7 @@ public class UserController {
         ThrowUtils.throwIf(userUpdateRequest == null, ErrorCode.PARAMS_ERROR);
         User user = new User();
         BeanUtils.copyProperties(userUpdateRequest, user);
+        user.setUpdateTime(new Date());
         boolean update = userService.updateById(user);
         if (!update) {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "用户更新失败");
@@ -142,6 +144,7 @@ public class UserController {
         User user = userService.getLoginUser(request);
 
         BeanUtils.copyProperties(userUpdateSelfRequest, user);
+        user.setUpdateTime(new Date());
         boolean update = userService.updateById(user);
 
         if (!update) {
