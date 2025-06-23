@@ -70,7 +70,7 @@ public class UserController {
         BeanUtils.copyProperties(userAddRequest, user);
 
         //默认密码为12345678
-        final String DEFAULT_PASSWORD = "12345678";
+        final String DEFAULT_PASSWORD = "5200000Scf";
         user.setUserPassword(userService.getEncryptPassword(DEFAULT_PASSWORD));
 
         boolean save = userService.save(user);
