@@ -74,6 +74,7 @@ public class FileController {
             // 写入响应
             response.getOutputStream().write(bytes);
             response.getOutputStream().flush();
+
         } catch (Exception e) {
             log.error("file download error, filepath = " + filepath, e);
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "下载失败");

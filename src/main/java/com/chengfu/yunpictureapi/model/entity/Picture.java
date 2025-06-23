@@ -1,9 +1,8 @@
 package com.chengfu.yunpictureapi.model.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
+
+import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
 
@@ -13,7 +12,7 @@ import lombok.Data;
  */
 @TableName(value ="picture")
 @Data
-public class Picture {
+public class Picture implements Serializable {
     /**
      * id
      */
@@ -130,4 +129,7 @@ public class Picture {
      * 图片主色调
      */
     private String picColor;
+
+    @TableField(exist = false)
+    public static final long serialVersionUID = 1L;
 }
