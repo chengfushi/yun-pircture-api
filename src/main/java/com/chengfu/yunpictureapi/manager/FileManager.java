@@ -105,6 +105,7 @@ public class FileManager {
         boolean deleteResult = file.delete();
         if (!deleteResult) {
             log.error("删除临时文件失败");
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "删除临时文件失败");
         }
     }
 }
