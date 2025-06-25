@@ -1,4 +1,4 @@
-package com.chengfu.yunpictureapi.model.vo;
+package com.chengfu.yunpictureapi.model.vo.picture;
 
 import cn.hutool.json.JSONUtil;
 import com.chengfu.yunpictureapi.model.entity.Picture;
