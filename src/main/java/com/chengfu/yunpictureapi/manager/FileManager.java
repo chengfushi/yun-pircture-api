@@ -104,7 +104,6 @@ public class FileManager {
         // 删除临时文件
         boolean deleteResult = file.delete();
         if (!deleteResult) {
-            log.error("file delete error, filepath = {}", file.getAbsolutePath());
         }
     }
 
