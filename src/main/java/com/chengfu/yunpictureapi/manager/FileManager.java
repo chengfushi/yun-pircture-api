@@ -8,7 +8,7 @@ import com.chengfu.yunpictureapi.config.CosClientConfig;
 import com.chengfu.yunpictureapi.exception.BusinessException;
 import com.chengfu.yunpictureapi.exception.ErrorCode;
 import com.chengfu.yunpictureapi.exception.ThrowUtils;
-import com.chengfu.yunpictureapi.model.dto.picture.UploadPictureResult;
+import com.chengfu.yunpictureapi.model.dto.file.UploadPictureResult;
 import com.qcloud.cos.model.PutObjectResult;
 import com.qcloud.cos.model.ciModel.persistence.ImageInfo;
 import lombok.extern.slf4j.Slf4j;
