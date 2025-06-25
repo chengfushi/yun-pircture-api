@@ -104,8 +104,7 @@ public class FileManager {
         // 删除临时文件
         boolean deleteResult = file.delete();
         if (!deleteResult) {
+            log.error("删除临时文件失败");
         }
     }
-
 }
-
