@@ -138,16 +138,38 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture>
             }
         }
 
-        queryWrapper.eq("id", id);
-        queryWrapper.eq("userId", userId);
-        queryWrapper.like("name", name);
-        queryWrapper.like("introduction", introduction);
-        queryWrapper.eq("category", category);
-        queryWrapper.eq("picSize", picSize);
-        queryWrapper.eq("picWidth", picWidth);
-        queryWrapper.eq("picHeight", picHeight);
-        queryWrapper.eq("picScale", picScale);
-        queryWrapper.like("picFormat", picFormat);
+// 动态拼接非空条件
+        if (id != null) {
+            queryWrapper.eq("id", id);
+        }
+        if (userId != null) {
+            queryWrapper.eq("userId", userId);
+        }
+        if (StrUtil.isNotBlank(name)) {
+            queryWrapper.like("name", name);
+        }
+        if (StrUtil.isNotBlank(introduction)) {
+            queryWrapper.like("introduction", introduction);
+        }
+        if (StrUtil.isNotBlank(category)) {
+            queryWrapper.eq("category", category);
+        }
+        if (picSize != null) {
+            queryWrapper.eq("picSize", picSize);
+        }
+        if (picWidth != null) {
+            queryWrapper.eq("picWidth", picWidth);
+        }
+        if (picHeight != null) {
+            queryWrapper.eq("picHeight", picHeight);
+        }
+        if (picScale != null) {
+            queryWrapper.eq("picScale", picScale);
+        }
+        if (StrUtil.isNotBlank(picFormat)) {
+            queryWrapper.like("picFormat", picFormat);
+        }
+
 
         //排序
         queryWrapper.orderBy(StrUtil.isNotEmpty(sortField), "ascend".equals(sortOrder), sortField);
