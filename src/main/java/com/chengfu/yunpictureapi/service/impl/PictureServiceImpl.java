@@ -10,6 +10,9 @@ import com.chengfu.yunpictureapi.exception.BusinessException;
 import com.chengfu.yunpictureapi.exception.ErrorCode;
 import com.chengfu.yunpictureapi.exception.ThrowUtils;
 import com.chengfu.yunpictureapi.manager.FileManager;
+import com.chengfu.yunpictureapi.manager.upload.FilePictureUpload;
+import com.chengfu.yunpictureapi.manager.upload.PictureUploadTemplate;
+import com.chengfu.yunpictureapi.manager.upload.UrlPictureUpload;
 import com.chengfu.yunpictureapi.model.dto.picture.PictureQueryRequest;
 import com.chengfu.yunpictureapi.model.dto.picture.PictureReviewRequest;
 import com.chengfu.yunpictureapi.model.dto.picture.PictureUploadRequest;
@@ -27,6 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
@@ -48,10 +52,17 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture>
     @Autowired
     private UserService userService;
 
-    @Override
-    public PictureVO uploadPicture(MultipartFile multipartFile,
-                                   PictureUploadRequest pictureUploadRequest,
-                                   User loginUser) {
+    @Resource
+    private FilePictureUpload filePictureUpload;
+
+    @Resource
+    private UrlPictureUpload urlPictureUpload;
+
+    // 上传图片
+    public PictureVO uploadPicture(Object inputSource, PictureUploadRequest pictureUploadRequest, User loginUser) {
+        if (inputSource == null) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "图片为空");
+        }
         //抛出未登录异常
         ThrowUtils.throwIf(loginUser == null, ErrorCode.NOT_LOGIN_ERROR);
 
@@ -74,12 +85,15 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture>
             }
         }
 
-
-        //按照用户id划分目录
+        // 按照用户 id 划分目录
         String uploadPathPrefix = String.format("public/%s", loginUser.getId());
-        //传图
-        UploadPictureResult uploadPictureResult = fileManager.uploadPicture(multipartFile, uploadPathPrefix);
-
+        // 根据 inputSource 类型区分上传方式
+        PictureUploadTemplate pictureUploadTemplate = filePictureUpload;
+        if (inputSource instanceof String) {
+            pictureUploadTemplate = urlPictureUpload;
+        }
+        UploadPictureResult uploadPictureResult = pictureUploadTemplate.uploadPicture(inputSource, uploadPathPrefix);
+        // 构造要入库的图片信息
         //构造入库图片信息
         Picture picture = new Picture();
         picture.setUrl(uploadPictureResult.getUrl());
