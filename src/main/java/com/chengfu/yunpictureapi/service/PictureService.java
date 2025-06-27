@@ -3,6 +3,7 @@ package com.chengfu.yunpictureapi.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.chengfu.yunpictureapi.model.dto.picture.PictureQueryRequest;
+import com.chengfu.yunpictureapi.model.dto.picture.PictureReviewRequest;
 import com.chengfu.yunpictureapi.model.dto.picture.PictureUploadRequest;
 import com.chengfu.yunpictureapi.model.entity.Picture;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -49,4 +50,10 @@ public interface PictureService extends IService<Picture> {
     Page<PictureVO> getPictureVOPage(Page<Picture> picturePage, HttpServletRequest request);
 
     void validPicture(Picture picture);
+
+    /*
+     * */
+    boolean doPictureReview(PictureReviewRequest pictureReviewRequest, User loginUser);
+
+    void fillReviewParams(Picture picture, User loginUser);
 }

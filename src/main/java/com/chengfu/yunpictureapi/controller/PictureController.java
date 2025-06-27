@@ -10,12 +10,10 @@ import com.chengfu.yunpictureapi.constant.UserConstant;
 import com.chengfu.yunpictureapi.exception.BusinessException;
 import com.chengfu.yunpictureapi.exception.ErrorCode;
 import com.chengfu.yunpictureapi.exception.ThrowUtils;
-import com.chengfu.yunpictureapi.model.dto.picture.PictureEditRequest;
-import com.chengfu.yunpictureapi.model.dto.picture.PictureQueryRequest;
-import com.chengfu.yunpictureapi.model.dto.picture.PictureUpdateRequest;
-import com.chengfu.yunpictureapi.model.dto.picture.PictureUploadRequest;
+import com.chengfu.yunpictureapi.model.dto.picture.*;
 import com.chengfu.yunpictureapi.model.entity.Picture;
 import com.chengfu.yunpictureapi.model.entity.User;
+import com.chengfu.yunpictureapi.model.enums.PictureReviewStatusEnum;
 import com.chengfu.yunpictureapi.model.vo.picture.PictureTagCategory;
 import com.chengfu.yunpictureapi.model.vo.picture.PictureVO;
 import com.chengfu.yunpictureapi.service.PictureService;
@@ -88,7 +86,7 @@ public class PictureController {
      * */
     @PostMapping("/update")
     @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
-    public BaseResponse<Boolean> updatePicture(@RequestBody PictureUpdateRequest pictureUpdateRequest) {
+    public BaseResponse<Boolean> updatePicture(@RequestBody PictureUpdateRequest pictureUpdateRequest,HttpServletRequest request) {
         //校验参数
         ThrowUtils.throwIf(pictureUpdateRequest == null || pictureUpdateRequest.getId() < 0,
                 ErrorCode.PARAMS_ERROR,
@@ -104,6 +102,10 @@ public class PictureController {
         ThrowUtils.throwIf(pictureService.getById(picture.getId()) == null,
                 ErrorCode.NOT_FOUND_ERROR,
                 "图片不存在");
+
+        //填充审核参数
+        User loginUser = userService.getLoginUser(request);
+        pictureService.fillReviewParams(picture, loginUser);
         //更新图片
         boolean update = pictureService.updateById(picture);
         ThrowUtils.throwIf(!update, ErrorCode.SYSTEM_ERROR, "更新图片失败");
@@ -163,6 +165,10 @@ public class PictureController {
         long current = pictureQueryRequest.getCurrent();
         long page = pictureQueryRequest.getPageSize();
 
+        // 普通用户默认只能查看已过审的数据
+        pictureQueryRequest.setReviewStatus(PictureReviewStatusEnum.PASS.getValue());
+
+
         //查询
         Page<Picture> picturePage = pictureService.page(new Page<>(current, page),
                 pictureService.getQueryWrapper(pictureQueryRequest));
@@ -195,6 +201,9 @@ public class PictureController {
         if (!oldPicture.getUserId().equals(loginUser.getId()) && !userService.isAdmin(loginUser)) {
             throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
         }
+
+        pictureService.fillReviewParams(picture, loginUser);
+
         // 操作数据库
         boolean result = pictureService.updateById(picture);
         ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
@@ -209,6 +218,17 @@ public class PictureController {
         pictureTagCategory.setTagList(tagList);
         pictureTagCategory.setCategoryList(categoryList);
         return ResultUtils.success(pictureTagCategory);
+    }
+
+    @PostMapping("/review")
+    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
+    public BaseResponse<Boolean> doPictureReview(@RequestBody PictureReviewRequest pictureReviewRequest,
+                                                 HttpServletRequest request){
+        ThrowUtils.throwIf(pictureReviewRequest == null || pictureReviewRequest.getId() == null,ErrorCode.PARAMS_ERROR);
+        User loginUser = userService.getLoginUser(request);
+        boolean result = pictureService.doPictureReview(pictureReviewRequest,loginUser);
+        ThrowUtils.throwIf(!result,ErrorCode.OPERATION_ERROR,"审核失败");
+        return ResultUtils.success(result);
     }
 
 
