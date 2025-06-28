@@ -1,6 +1,7 @@
 package com.chengfu.yunpictureapi.model.dto.picture;
 
 import com.chengfu.yunpictureapi.common.PageRequest;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -88,5 +89,6 @@ public class PictureQueryRequest extends PageRequest implements Serializable {
 
 
     private static final long serialVersionUID = 1L;
+
 }
 

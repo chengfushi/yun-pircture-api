@@ -56,7 +56,7 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture>
     implements PictureService{
 
     @Autowired
-    FileManager fileManager;
+    private FileManager fileManager;
     @Autowired
     private UserService userService;
 
