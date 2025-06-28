@@ -30,6 +30,8 @@ import java.util.List;
 
 @Service
 @Slf4j
+@Deprecated
+// 该类已废弃，使用 FilePictureUpload 代替
 public class FileManager {
 
     @Resource

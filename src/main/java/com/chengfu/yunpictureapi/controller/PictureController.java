@@ -208,7 +208,7 @@ public class PictureController {
 
         String queryCondition = JSONUtil.toJsonStr(pictureQueryRequest);
         String hashKey = DigestUtils.md5DigestAsHex(queryCondition.getBytes());
-        String cacheKey = "yupicture:listPictureVOByPage:" + hashKey;
+        String cacheKey = "yunpicture:listPictureVOByPage:" + hashKey;
 
         // 1. 查询本地缓存（Caffeine）
         String cachedValue = LOCAL_CACHE.getIfPresent(cacheKey);

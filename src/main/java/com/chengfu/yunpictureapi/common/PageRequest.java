@@ -4,6 +4,7 @@ import lombok.Data;
 
 /**
  * 通用的分页请求类
+ * @author chengfu
  */
 @Data
 public class PageRequest {
