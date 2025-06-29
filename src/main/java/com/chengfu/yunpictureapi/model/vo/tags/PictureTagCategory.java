@@ -1,4 +1,4 @@
-package com.chengfu.yunpictureapi.model.vo.picture;
+package com.chengfu.yunpictureapi.model.vo.tags;
 
 import lombok.Data;
 

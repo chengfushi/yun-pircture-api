@@ -15,7 +15,7 @@ import com.chengfu.yunpictureapi.model.dto.picture.*;
 import com.chengfu.yunpictureapi.model.entity.Picture;
 import com.chengfu.yunpictureapi.model.entity.User;
 import com.chengfu.yunpictureapi.model.enums.PictureReviewStatusEnum;
-import com.chengfu.yunpictureapi.model.vo.picture.PictureTagCategory;
+import com.chengfu.yunpictureapi.model.vo.tags.PictureTagCategory;
 import com.chengfu.yunpictureapi.model.vo.picture.PictureVO;
 import com.chengfu.yunpictureapi.service.PictureService;
 import com.chengfu.yunpictureapi.service.UserService;
@@ -200,7 +200,7 @@ public class PictureController {
         long current = pictureQueryRequest.getCurrent();
         long size = pictureQueryRequest.getPageSize();
         // 限制爬虫
-        ThrowUtils.throwIf(size > 20, ErrorCode.PARAMS_ERROR);
+        ThrowUtils.throwIf(size > 20, ErrorCode.PARAMS_ERROR,"请不要一次访问过多图片");
         // 普通用户默认只能查看已过审的数据
         pictureQueryRequest.setReviewStatus(PictureReviewStatusEnum.PASS.getValue());
 

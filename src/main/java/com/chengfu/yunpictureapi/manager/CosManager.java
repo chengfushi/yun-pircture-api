@@ -70,12 +70,31 @@ public class CosManager {
         compressRule.setFileId(webpKey);
         compressRules.add(compressRule);
 
+        //图片缩略图处理,仅对大于20kb
+        if (file.length() > 20 * 1024) {
+            PicOperations.Rule thumbnailRule = new PicOperations.Rule();
+            String thumbnailKet = FileUtil.getName(key) + "_thumbnail" + FileUtil.getSuffix(key);
+            thumbnailRule.setRule(String.format("imageMogr2/thumbnail/%sx%s", 256, 256));
+            thumbnailRule.setBucket(cosClientConfig.getBucket());
+            thumbnailRule.setFileId(thumbnailKet);
+            compressRules.add(thumbnailRule);
+        }
+
         // 构造处理参数
         picOperations.setRules(compressRules);
         putObjectRequest.setPicOperations(picOperations);
         return cosClient.putObject(putObjectRequest);
     }
 
-
+    /**
+     * @description: 删除文件
+     * @author: Chengfu Shi
+     * @date: 2025/6/29 17:41
+     * @param: key 需要删除的文件
+     * @return: void
+     **/
+    public void deleteObject(String key) throws CosClientException{
+        cosClient.deleteObject(cosClientConfig.getBucket(),key);
+    }
 
 }
