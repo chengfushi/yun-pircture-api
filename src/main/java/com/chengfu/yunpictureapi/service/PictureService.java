@@ -26,9 +26,9 @@ public interface PictureService extends IService<Picture> {
      * 上传图片
      *
      * @param inputSource          文件输入源
-     * @param pictureUploadRequest
-     * @param loginUser
-     * @return
+     * @param pictureUploadRequest 图片上传请求
+     * @param loginUser 用户登录
+     * @return 图片封装类
      */
     PictureVO uploadPicture(Object inputSource,
                             PictureUploadRequest pictureUploadRequest,
@@ -48,6 +48,11 @@ public interface PictureService extends IService<Picture> {
      * */
     PictureVO getPictureVo(Picture picture, HttpServletRequest httpServletRequest);
 
+    /**
+     * @param picturePage
+     * @param request
+     * @return
+     */
     Page<PictureVO> getPictureVOPage(Page<Picture> picturePage, HttpServletRequest request);
 
     void validPicture(Picture picture);
