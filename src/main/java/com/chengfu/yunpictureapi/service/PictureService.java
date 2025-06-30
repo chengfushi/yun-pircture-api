@@ -2,15 +2,12 @@ package com.chengfu.yunpictureapi.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.chengfu.yunpictureapi.model.dto.picture.PictureQueryRequest;
-import com.chengfu.yunpictureapi.model.dto.picture.PictureReviewRequest;
-import com.chengfu.yunpictureapi.model.dto.picture.PictureUploadByBatchRequest;
-import com.chengfu.yunpictureapi.model.dto.picture.PictureUploadRequest;
+import com.chengfu.yunpictureapi.model.dto.picture.*;
 import com.chengfu.yunpictureapi.model.entity.Picture;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.chengfu.yunpictureapi.model.entity.User;
 import com.chengfu.yunpictureapi.model.vo.picture.PictureVO;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.scheduling.annotation.Async;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -75,4 +72,12 @@ public interface PictureService extends IService<Picture> {
             User loginUser
     );
 
+    void checkPictureAuth(User loginUser, Picture picture);
+
+    boolean deletePicture(long pictureId, User loginUser);
+
+    @Async
+    void clearPictureFile(Picture oldPicture);
+
+    void editPicture(PictureEditRequest pictureEditRequest, User loginUser);
 }

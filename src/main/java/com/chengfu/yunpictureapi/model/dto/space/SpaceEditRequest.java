@@ -25,6 +25,7 @@ public class SpaceEditRequest implements Serializable {
      */
     private String spaceName;
 
+
     private static final long serialVersionUID = 1L;
 }
 

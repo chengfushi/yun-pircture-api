@@ -20,6 +20,7 @@ public class PictureUploadByBatchRequest {
      */
     private String namePrefix;
 
+
     /**
      * 图片名称
      */
