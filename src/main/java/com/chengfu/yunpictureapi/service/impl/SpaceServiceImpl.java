@@ -63,7 +63,7 @@ public class SpaceServiceImpl extends ServiceImpl<SpaceMapper, Space>
         }
         // 3. 如果是编辑,则判断空间级别是否存在,再验证长度
 
-        ThrowUtils.throwIf(spaceLevel == null || spaceLevelEnum == null, ErrorCode.PARAMS_ERROR, "空间级别不存在");
+        ThrowUtils.throwIf(spaceLevel != null &&  spaceLevelEnum == null, ErrorCode.PARAMS_ERROR, "空间级别不存在");
 
         // 验证空间长度
         ThrowUtils.throwIf(StrUtil.isNotBlank(spaceName) && spaceName.length() > 30, ErrorCode.PARAMS_ERROR, "请求参数过长");

@@ -49,7 +49,7 @@ public class SpaceController {
     @Resource
     private UserService userService;
 
-    @PostMapping
+    @PostMapping("/add")
     public BaseResponse<Long> addSpace(@RequestBody SpaceAddRequest spaceAddRequest, HttpServletRequest request) {
         ThrowUtils.throwIf(spaceAddRequest == null, ErrorCode.PARAMS_ERROR, "参数不能为空");
         User user = userService.getLoginUser(request);
@@ -164,23 +164,43 @@ public class SpaceController {
     /**
      * 编辑空间（给用户使用）
      */
+    // @PostMapping("/edit")
+    // public BaseResponse<Boolean> editSpace(@RequestBody SpaceEditRequest spaceEditRequest, HttpServletRequest request) {
+    //     if (spaceEditRequest == null || spaceEditRequest.getId() <= 0) {
+    //         throw new BusinessException(ErrorCode.PARAMS_ERROR);
+    //     }
+    //
+    //     //判断是否存在
+    //     long id = spaceEditRequest.getId();
+    //     Space oldSpace = spaceService.getById(id);
+    //     ThrowUtils.throwIf(oldSpace == null, ErrorCode.NOT_FOUND_ERROR);
+    //
+    //     User loginUser = userService.getLoginUser(request);
+    //
+    //     // 仅本人或管理员可编辑
+    //     spaceService.checkSpaceAuth(loginUser, oldSpace);
+    //
+    //     //直接将数据更新
+    //     Space space = new Space();
+    //     BeanUtils.copyProperties(spaceEditRequest, space);
+    //
+    //     boolean result = spaceService.updateById(space);
+    //     ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
+    //     return ResultUtils.success(true);
+    // }
+
+    /**
+     * 编辑空间（给用户使用）
+     */
     @PostMapping("/edit")
     public BaseResponse<Boolean> editSpace(@RequestBody SpaceEditRequest spaceEditRequest, HttpServletRequest request) {
         if (spaceEditRequest == null || spaceEditRequest.getId() <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-
-        //判断是否存在
-        long id = spaceEditRequest.getId();
-        Space oldSpace = spaceService.getById(id);
-        ThrowUtils.throwIf(oldSpace == null, ErrorCode.NOT_FOUND_ERROR);
-
         // 在此处将实体类和 DTO 进行转换
         Space space = new Space();
         BeanUtils.copyProperties(spaceEditRequest, space);
-        space.setSpaceLevel(oldSpace.getSpaceLevel());
         // 自动填充数据
-
         spaceService.fillSpaceBySpaceLevel(space);
         // 设置编辑时间
         space.setEditTime(new Date());
@@ -188,7 +208,9 @@ public class SpaceController {
         spaceService.vaildSpace(space, false);
         User loginUser = userService.getLoginUser(request);
         // 判断是否存在
-
+        long id = spaceEditRequest.getId();
+        Space oldSpace = spaceService.getById(id);
+        ThrowUtils.throwIf(oldSpace == null, ErrorCode.NOT_FOUND_ERROR);
         // 仅本人或管理员可编辑
         spaceService.checkSpaceAuth(loginUser, oldSpace);
         // 操作数据库
