@@ -45,10 +45,10 @@ public class UserController {
         User user = userService.getById(userRegister);
 
 
-        // 注册成功后顺便创建自己的空间
-        SpaceAddRequest spaceAddRequest = new SpaceAddRequest();
-        spaceAddRequest.setSpaceLevel(SpaceLevelEnum.COMMON.getValue());
-        spaceService.addSpace(spaceAddRequest,user);
+        // // 注册成功后顺便创建自己的空间
+        // SpaceAddRequest spaceAddRequest = new SpaceAddRequest();
+        // spaceAddRequest.setSpaceLevel(SpaceLevelEnum.COMMON.getValue());
+        // spaceService.addSpace(spaceAddRequest,user);
 
         return ResultUtils.success(userRegister);
     }
