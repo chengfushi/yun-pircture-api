@@ -227,22 +227,22 @@ public class PictureController {
             }
         }
 
-        // 1. 查询本地缓存（Caffeine）
-        String cachedValue = LOCAL_CACHE.getIfPresent(cacheKey);
-        if (cachedValue != null) {
-            Page<PictureVO> cachedPage = JSONUtil.toBean(cachedValue, Page.class);
-            return ResultUtils.success(cachedPage);
-        }
-
-        // 2. 查询分布式缓存（Redis）
-        ValueOperations<String, String> valueOps = stringRedisTemplate.opsForValue();
-        cachedValue = valueOps.get(cacheKey);
-        if (cachedValue != null) {
-            // 如果命中 Redis，存入本地缓存并返回
-            LOCAL_CACHE.put(cacheKey, cachedValue);
-            Page<PictureVO> cachedPage = JSONUtil.toBean(cachedValue, Page.class);
-            return ResultUtils.success(cachedPage);
-        }
+        // // 1. 查询本地缓存（Caffeine）
+        // String cachedValue = LOCAL_CACHE.getIfPresent(cacheKey);
+        // if (cachedValue != null) {
+        //     Page<PictureVO> cachedPage = JSONUtil.toBean(cachedValue, Page.class);
+        //     return ResultUtils.success(cachedPage);
+        // }
+        //
+        // // 2. 查询分布式缓存（Redis）
+        // ValueOperations<String, String> valueOps = stringRedisTemplate.opsForValue();
+        // cachedValue = valueOps.get(cacheKey);
+        // if (cachedValue != null) {
+        //     // 如果命中 Redis，存入本地缓存并返回
+        //     LOCAL_CACHE.put(cacheKey, cachedValue);
+        //     Page<PictureVO> cachedPage = JSONUtil.toBean(cachedValue, Page.class);
+        //     return ResultUtils.success(cachedPage);
+        // }
 
 
         // 3. 查询数据库
@@ -250,12 +250,12 @@ public class PictureController {
                 pictureService.getQueryWrapper(pictureQueryRequest));
         Page<PictureVO> pictureVOPage = pictureService.getPictureVOPage(picturePage, httpServletRequest);
 
-        // 4. 更新缓存
-        String cacheValue = JSONUtil.toJsonStr(pictureVOPage);
-        // 更新本地缓存
-        LOCAL_CACHE.put(cacheKey, cacheValue);
-        // 更新 Redis 缓存，设置过期时间为 5 - 10分钟
-        valueOps.set(cacheKey, cacheValue, 5 + RandomUtil.randomInt(5), TimeUnit.MINUTES);
+        // // 4. 更新缓存
+        // String cacheValue = JSONUtil.toJsonStr(pictureVOPage);
+        // // 更新本地缓存
+        // LOCAL_CACHE.put(cacheKey, cacheValue);
+        // // 更新 Redis 缓存，设置过期时间为 5 - 10分钟
+        // valueOps.set(cacheKey, cacheValue, 5 + RandomUtil.randomInt(5), TimeUnit.MINUTES);
 
 
         // 返回结果

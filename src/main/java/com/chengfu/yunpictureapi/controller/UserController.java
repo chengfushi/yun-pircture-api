@@ -9,15 +9,19 @@ import com.chengfu.yunpictureapi.constant.UserConstant;
 import com.chengfu.yunpictureapi.exception.BusinessException;
 import com.chengfu.yunpictureapi.exception.ErrorCode;
 import com.chengfu.yunpictureapi.exception.ThrowUtils;
+import com.chengfu.yunpictureapi.model.dto.space.SpaceAddRequest;
 import com.chengfu.yunpictureapi.model.dto.user.*;
 import com.chengfu.yunpictureapi.model.entity.User;
+import com.chengfu.yunpictureapi.model.enums.SpaceLevelEnum;
 import com.chengfu.yunpictureapi.model.vo.user.LoginUserVO;
 import com.chengfu.yunpictureapi.model.vo.user.UserVO;
+import com.chengfu.yunpictureapi.service.SpaceService;
 import com.chengfu.yunpictureapi.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
@@ -28,6 +32,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Resource
+    private SpaceService spaceService;
+
     @PostMapping("/register")
     public BaseResponse<Long> userRegister(@RequestBody UserRegisterRequest userRegisterRequest) {
         ThrowUtils.throwIf(userRegisterRequest == null, ErrorCode.PARAMS_ERROR);
@@ -35,6 +42,14 @@ public class UserController {
         String userPassword = userRegisterRequest.getUserPassword();
         String checkPassword = userRegisterRequest.getCheckPassword();
         Long userRegister = userService.userRegister(userAccount, userPassword, checkPassword);
+        User user = userService.getById(userRegister);
+
+
+        // 注册成功后顺便创建自己的空间
+        SpaceAddRequest spaceAddRequest = new SpaceAddRequest();
+        spaceAddRequest.setSpaceLevel(SpaceLevelEnum.COMMON.getValue());
+        spaceService.addSpace(spaceAddRequest,user);
+
         return ResultUtils.success(userRegister);
     }
 

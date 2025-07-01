@@ -157,6 +157,7 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture>
         // 补充设置 spaceId
         picture.setSpaceId(spaceId);
 
+
         picture.setUrl(uploadPictureResult.getUrl());
         picture.setName(uploadPictureResult.getPicName());
         //设置缩略图
@@ -182,8 +183,9 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture>
             picture.setId(pictureId);
             picture.setEditTime(new Date());
         }
+
         //填充审核参数
-        fillReviewParams(picture, loginUser);
+        this.fillReviewParams(picture, loginUser);
 
 // 开启事务
         Long finalSpaceId = spaceId;
@@ -385,14 +387,21 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture>
     public void fillReviewParams(Picture picture, User loginUser) {
         if (userService.isAdmin(loginUser)) {
             // 管理员自动过审
-            picture.setReviewStatus(PictureReviewStatusEnum.PASS.getValue());
-            picture.setReviewerId(loginUser.getId());
-            picture.setReviewMessage("管理员自动过审");
-            picture.setReviewTime(new Date());
+            setReviewPass(picture, loginUser, "管理员自动过审");
+        } else if (picture.getSpaceId() != null) {
+            // 空间内容自动过审（非管理员）
+            setReviewPass(picture, loginUser, "空间自动过审");
         } else {
-            // 非管理员，创建或编辑都要改为待审核
+            // 非管理员且非空间内容，创建或编辑都要改为待审核
             picture.setReviewStatus(PictureReviewStatusEnum.REVIEWING.getValue());
         }
+    }
+
+    private void setReviewPass(Picture picture, User loginUser, String message) {
+        picture.setReviewStatus(PictureReviewStatusEnum.PASS.getValue());
+        picture.setReviewerId(loginUser.getId());
+        picture.setReviewMessage(message);
+        picture.setReviewTime(new Date());
     }
 
     @Override
@@ -531,6 +540,8 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture>
         picture.setTags(JSONUtil.toJsonStr(pictureEditRequest.getTags()));
         // 设置编辑时间
         picture.setEditTime(new Date());
+
+        picture.setSpaceId(pictureEditRequest.getSpaceId());
         // 数据校验
         this.validPicture(picture);
         // 判断是否存在

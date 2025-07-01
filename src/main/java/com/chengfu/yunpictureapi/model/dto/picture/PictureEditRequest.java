@@ -18,6 +18,8 @@ public class PictureEditRequest implements Serializable {
      */
     private String name;
 
+    private Long spaceId;
+
     /**
      * 简介
      */
