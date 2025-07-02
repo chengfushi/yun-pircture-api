@@ -10,6 +10,7 @@ import com.chengfu.yunpictureapi.model.vo.picture.PictureVO;
 import org.springframework.scheduling.annotation.Async;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
 * @author Lenovo
@@ -80,4 +81,6 @@ public interface PictureService extends IService<Picture> {
     void clearPictureFile(Picture oldPicture);
 
     void editPicture(PictureEditRequest pictureEditRequest, User loginUser);
+
+    List<PictureVO> searchPictureByColor(Long spaceId, String picColor, User loginUser);
 }
